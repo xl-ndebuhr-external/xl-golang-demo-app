@@ -7,14 +7,22 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/xl.css">
 
-    <title>Hello, world!</title>
+    <title>XL Wiki</title>
   </head>
-  <body>
-    <h1>{{.Title}}</h1>
-    
-    <p>[<a href="/edit/{{.Title}}">edit</a>]</p>
-    
-    <div>{{printf "%s" .Body}}</div>
+  <body class="text-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <h1 class="cover-heading">{{.Title}}</h1>
+      <p class="lead">{{printf "%s" .Body}}</p>
+      <p class="lead">
+        <a href="/edit/{{.Title}}" class="btn btn-lg btn-secondary">Edit</a>
+      </p>
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p><a href="https://getbootstrap.com/">Bootstrap</a>, <a href="https://twitter.com/mdo">@mdo</a>.</p>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>
