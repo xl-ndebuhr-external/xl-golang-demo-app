@@ -1,0 +1,1 @@
+DescriptionDevOps is a set of software development practices that combine software development and information-technology operations to shorten the systems-development life cycle while delivering features, fixes, and updates frequently in close alignment with business objectives.
