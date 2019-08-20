@@ -1,7 +1,7 @@
 node {
    stage('Preparation') {
       // Get code from the GitLab repository
-      git 'http://gitlab/root/xl-golang-demo-app.git'
+      git '${REPO}'
    }
    stage('Build App Executables') {
       withEnv(["PATH=$PATH:/opt/go/bin:/usr/local/go/bin"]) {
@@ -9,12 +9,17 @@ node {
       }
    }
    stage('Scan Artifacts') {
-      withEnv(["DOCKER_HOST=tcp://dind:2375"]) {
+      withEnv(["DOCKER_HOST=${DOCKERHOST}"]) {
         sh 'docker build -f DockerfileScan -t sonar-scanner:latest .'
-        sh 'docker run --rm -t sonar-scanner -Dsonar.projectKey=xl-golang-demo-app -Dsonar.host.url=http://sonarqube:9009 -Dsonar.login=${SONARTOKEN}'
+        sh 'docker run --rm -t sonar-scanner -Dsonar.projectKey=xl-golang-demo-app -Dsonar.host.url=${SONARHOST} -Dsonar.login=${SONARTOKEN}'
       }
    }
-   stage('Results') {
+   stage('Archive Artifacts') {
       archiveArtifacts artifacts: 'wiki', fingerprint: true
+   }
+   stage('Build App Docker Image') {
+      withEnv(["DOCKER_HOST=${DOCKERHOST}"]) {
+        sh 'docker build -t devops-wiki:latest .'
+      }
    }
 }
