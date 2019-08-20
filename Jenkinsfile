@@ -8,6 +8,12 @@ node {
         sh 'go build wiki.go'
       }
    }
+   stage('Scan Artifacts') {
+      withEnv(["DOCKER_HOST=tcp://dind:2375"]) {
+        sh 'docker build -f DockerfileScan -t sonar-scanner:latest .'
+        sh 'docker run --rm -t sonar-scanner -Dsonar.projectKey=xl-golang-demo-app -Dsonar.host.url=http://sonarqube:9009 -Dsonar.login=${SONARTOKEN}'
+      }
+   }
    stage('Results') {
       archiveArtifacts artifacts: 'wiki', fingerprint: true
    }
