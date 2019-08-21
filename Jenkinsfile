@@ -14,12 +14,21 @@ node {
         sh 'docker run --rm -t sonar-scanner -Dsonar.projectKey=xl-golang-demo-app -Dsonar.host.url=${SONARHOST} -Dsonar.login=${SONARTOKEN}'
       }
    }
-   stage('Archive Artifacts') {
-      archiveArtifacts artifacts: 'wiki', fingerprint: true
-   }
    stage('Build App Docker Image') {
       withEnv(["DOCKER_HOST=${DOCKERHOST}"]) {
         sh 'docker build -t devops-wiki:latest .'
+        sh 'docker tag devops-wiki:latest ${REGISTRY}/devops-wiki:latest'
+        sh 'echo "${DOCKERPASSWORD}" | docker login -u ${DOCKERUSER} --password-stdin https://${REGISTRY}'
+        sh 'docker ${REGISTRY}/devops-wiki:latest'
       }
+   }
+   stage('Setup Deployment Package') {
+       sh 'sed -i "s/{{ VERSION }}/1.0.$BUILD_NUMBER/g" manifest.xml'
+       sh 'sed -i "s/{{ REGISTRY }}/${REGISTRY}/g" manifest.xml'
+       xldCreatePackage artifactsPath: '', darPath: 'output.dar', manifestPath: 'manifest.xml'
+       xldPublishPackage darPath: 'output.dar', serverCredentials: 'admin'
+   }
+   stage('Archive Artifacts') {
+      archiveArtifacts artifacts: 'wiki, output.dar', fingerprint: true
    }
 }

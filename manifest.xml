@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<udm.DeploymentPackage version="{{ VERSION }}" application="DevOpsWiki">
+  <deployables>
+    <docker.ContainerSpec name="/wiki">
+      <containerName>devops-wiki</containerName>
+      <image>{{ REGISTRY }}/devops-wiki:latest</image>
+      <showLogsAfter>30</showLogsAfter>
+      <portBindings>
+        <docker.PortSpec name="/wiki/http">
+          <hostPort>8008</hostPort>
+          <containerPort>8008</containerPort>
+          <protocol>tcp</protocol>
+        </docker.PortSpec>
+      </portBindings>
+    </docker.ContainerSpec>
+  </deployables>
+  <dependencyResolution>LATEST</dependencyResolution>
+  <undeployDependencies>false</undeployDependencies>
+</udm.DeploymentPackage>
