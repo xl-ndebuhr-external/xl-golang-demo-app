@@ -5,5 +5,7 @@ COPY ./data /opt/data
 COPY ./tmpl /opt/tmpl
 COPY ./static /opt/static
 
-ENTRYPOINT ["cd", "/opt/", "&&", "/opt/wiki"]
+COPY ./entrypoint.sh /opt/entrypoint.sh
+
+ENTRYPOINT ["/opt/entrypoint.sh"]
 CMD [""]
