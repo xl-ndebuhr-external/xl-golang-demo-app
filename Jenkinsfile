@@ -16,10 +16,10 @@ node {
    }
    stage('Build App Docker Image') {
       withEnv(["DOCKER_HOST=${DOCKERHOST}"]) {
-        sh 'docker build --no-cache -t devops-wiki:latest .'
-        sh 'docker tag devops-wiki:latest ${REGISTRY}/devops-wiki:latest'
+        sh 'docker build --no-cache -t devops-wiki:1.0.$BUILD_NUMBER .'
+        sh 'docker tag devops-wiki:1.0.$BUILD_NUMBER ${REGISTRY}/devops-wiki:1.0.$BUILD_NUMBER'
         sh 'echo "${DOCKERPASSWORD}" | docker login -u ${DOCKERUSER} --password-stdin https://${REGISTRY}'
-        sh 'docker push ${REGISTRY}/devops-wiki:latest'
+        sh 'docker push ${REGISTRY}/devops-wiki:1.0.$BUILD_NUMBER'
       }
    }
    stage('Setup Deployment Package') {

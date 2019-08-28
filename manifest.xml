@@ -3,7 +3,7 @@
   <deployables>
     <docker.ContainerSpec name="/wiki">
       <containerName>devops-wiki</containerName>
-      <image>{{ REGISTRY }}/devops-wiki:latest</image>
+      <image>{{ REGISTRY }}/devops-wiki:{{ VERSION }}</image>
       <showLogsAfter>30</showLogsAfter>
       <portBindings>
         <docker.PortSpec name="/wiki/http">

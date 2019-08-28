@@ -6,4 +6,5 @@ COPY ./tmpl /opt/tmpl
 COPY ./static /opt/static
 
 WORKDIR /opt/
-ENTRYPOINT /opt/wiki
+ENTRYPOINT ["/opt/wiki"]
+CMD [""]
