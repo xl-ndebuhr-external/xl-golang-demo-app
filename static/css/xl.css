@@ -3,11 +3,7 @@
  */
 
 /* Links */
-a,
-a:focus,
-a:hover {
-  color: #fff;
-}
+a, a:focus, a:hover {color: rgb(255,255,255)}
 
 /* Custom default button */
 .btn-secondary,
