@@ -10,7 +10,8 @@ node {
    }
    stage('Scan Artifacts') {
       withEnv(["DOCKER_HOST=${DOCKERHOST}"]) {
-        sh 'docker run -v $PWD:/usr/src --rm -t newtmitch/sonar-scanner:4 -Dsonar.projectKey=xl-golang-demo-app -Dsonar.host.url=${SONARHOST} -Dsonar.login=${SONARTOKEN}'
+        sh 'docker build -f DockerfileScan -t sonar-scanner:latest .'
+        sh 'docker run --rm -t sonar-scanner -Dsonar.projectKey=xl-golang-demo-app -Dsonar.host.url=${SONARHOST} -Dsonar.login=${SONARTOKEN}'
       }
    }
    stage('Build App Docker Image') {
