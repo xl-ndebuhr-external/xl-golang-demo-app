@@ -31,4 +31,11 @@ node {
    stage('Archive Artifacts') {
       archiveArtifacts artifacts: 'wiki, output.dar', fingerprint: true
    }
+   stage('Docker Cleanup') {
+      withEnv(["DOCKER_HOST=${DOCKERHOST}"]) {
+        sh 'docker rmi -f devops-wiki:1.0.$BUILD_NUMBER'
+        sh 'docker rmi -f ${REGISTRY}/devops-wiki:1.0.$BUILD_NUMBER'
+        sh 'docker rmi -f sonar-scanner:latest'
+      }
+   }
 }
